@@ -1,9 +1,9 @@
 package it.polito.tdp.extflightdelays.model;
 
 public class Rotta {
-	private Airport a1;
-	private Airport a2;
-	private int nVoli;
+	private Airport a1; // aeroporto di partenza
+	private Airport a2; // aeroporto di destinazione
+	private int nVoli;  
 	
 	public Rotta(Airport a1, Airport a2, int nVoli) {
 		super();

@@ -126,7 +126,7 @@ public class Airport implements Comparable<Airport>{
 
 	@Override
 	public int compareTo(Airport o) {
-		return this.iataCode.compareTo(o.getIataCode());
+		return this.iataCode.compareTo(o.getIataCode()); // ordino rispetto al codice dell'aeroporto (es. TRN-MPX)
 	}
 	
 }

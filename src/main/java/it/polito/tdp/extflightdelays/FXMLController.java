@@ -48,7 +48,7 @@ public class FXMLController {
     	int x;
     	
     	try {
-    		x = Integer.parseInt(compagnieMinimo.getText());
+    		x = Integer.parseInt(compagnieMinimo.getText()); // recupero l'input dell'utente e provo a convertirla in un numero --> pattern da ricordare
     	} catch (NumberFormatException e) {
     		txtResult.appendText("Inserire valore numerico");
     		return;
@@ -59,20 +59,22 @@ public class FXMLController {
     	txtResult.appendText("# VERTICI: " + this.model.nVertici() + "\n");
     	txtResult.appendText("# ARCHI: " + this.model.nArchi());
     	
-    	cmbBoxAeroportoPartenza.getItems().addAll(this.model.getVertici());
+    	// i menù a tendina vanno riempiti solo dopo la creazione del Grafo
+    	cmbBoxAeroportoPartenza.getItems().addAll(this.model.getVertici()); 
     	cmbBoxAeroportoDestinazione.getItems().addAll(this.model.getVertici());
     }
 
     @FXML
     void doTestConnessione(ActionEvent event) {
     	txtResult.clear();
+    	// controllo dell'input
     	if(cmbBoxAeroportoPartenza.getValue() == null ||
     			cmbBoxAeroportoDestinazione.getValue() == null) {
     		txtResult.appendText("Seleziona i due aeroporti!");
     		return ;
     	}
     	
-    	List<Airport> percorso = this.model.getPercorso(cmbBoxAeroportoPartenza.getValue(), cmbBoxAeroportoDestinazione.getValue());
+    	List<Airport> percorso = this.model.getPercorso(cmbBoxAeroportoPartenza.getValue(), cmbBoxAeroportoDestinazione.getValue()); // a1 e a2 sono quelli selezionati dall'utente tramite comboBox
     	
     	if(percorso == null) {
     		txtResult.appendText("I due aeroporti non sono collegati");

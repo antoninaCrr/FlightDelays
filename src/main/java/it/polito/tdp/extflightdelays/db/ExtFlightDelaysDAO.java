@@ -49,7 +49,7 @@ public class ExtFlightDelaysDAO {
 
 			while (rs.next()) {
 				
-				if(!idMap.containsKey(rs.getInt("ID"))) {
+				if(!idMap.containsKey(rs.getInt("ID"))) { // se la mappa non contiene l'ID che sto puntando, allora creao l'oggetto Aeroporto associato e lo aggiungo alla Mappa
 					Airport airport = new Airport(rs.getInt("ID"), rs.getString("IATA_CODE"), rs.getString("AIRPORT"),
 						rs.getString("CITY"), rs.getString("STATE"), rs.getString("COUNTRY"), rs.getDouble("LATITUDE"),
 						rs.getDouble("LONGITUDE"), rs.getDouble("TIMEZONE_OFFSET"));
@@ -102,12 +102,12 @@ public class ExtFlightDelaysDAO {
 				+ "WHERE (a.id = f.ORIGIN_AIRPORT_ID OR a.id = f.DESTINATION_AIRPORT_ID) "
 				+ "GROUP BY a.id "
 				+ "HAVING COUNT(DISTINCT (f.AIRLINE_ID)) >= ?";
-		List<Airport> result = new ArrayList<Airport> ();
+		List<Airport> result = new ArrayList<Airport> (); // sarà una lista in cui inseriremo oggetti Aeroporto estratti dalla idMap
 		
 		try {
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
-			st.setInt(1, x);
+			st.setInt(1, x); // prima di eseguire la query, setto i param che ricevo dall'esterno
 			ResultSet rs = st.executeQuery();
 			
 			while (rs.next()) {
@@ -135,10 +135,10 @@ public class ExtFlightDelaysDAO {
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next()) {
-				Airport sorgente = idMap.get(rs.getInt("a1"));
+				Airport sorgente = idMap.get(rs.getInt("a1")); // mi recupero dalla Mappa l'aeroporto di interesse
 				Airport destinazione = idMap.get(rs.getInt("a2"));
 				
-				if(sorgente != null && destinazione != null) {
+				if(sorgente != null && destinazione != null) { // evito di inserire rotte incomplete a causa di eventuali mancanze di dati nel DB
 					result.add(new Rotta(sorgente, destinazione, rs.getInt("n")));
 				}
 				
